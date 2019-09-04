@@ -1,4 +1,4 @@
-package com.company;
+package domain;
 
 public enum Coin {
     FIVE_CNT(0.05),
