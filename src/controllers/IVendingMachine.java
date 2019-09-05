@@ -4,17 +4,17 @@ import domain.Coin;
 import domain.Product;
 
 import java.util.List;
-import java.util.Set;
 
 interface IVendingMachine {
 
-    Set<Product> showProducts();
 
-    double consultPrice(Product product);
+//    void buyProduct(Product product, List<Coin> coins) throws Exception;
+//
+//    List<Coin> refund();
 
-    void buyProduct(Product product, List<Coin> coins) throws Exception;
+    void refillProducts(List<Product> newProducts);
 
-    List<Coin> refund();
+    void refillCoins(List<Coin> newCoins);
 
 
 }
