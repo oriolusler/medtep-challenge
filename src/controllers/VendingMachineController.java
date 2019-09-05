@@ -29,12 +29,14 @@ public class VendingMachineController implements IVendingMachine {
         return this.vendingMachine.coinItemRemaining(coin);
     }
 
-    public void buyProduct(Product product) throws NoEnoughMoneyException, NoEnoughProductsException {
+    public Product buyProduct(Product product) throws NoEnoughMoneyException, NoEnoughProductsException {
         Order newOrder = new Order(product, this.vendingMachine.getCurrentMoney());
 
         validateOrder(newOrder);
         removeProduct(product);
         transferCurrentMoneyToInventory();
+
+        return product;
     }
 
     private void removeProduct(Product product) {
