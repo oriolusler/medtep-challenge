@@ -1,9 +1,13 @@
 package controllers;
 
 import domain.Coin;
+import domain.Order;
 import domain.Product;
 import domain.VendingMachine;
+import exceptions.NoEnoughMoneyException;
+import exceptions.NoEnoughProductsException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VendingMachineController implements IVendingMachine {
@@ -25,25 +29,34 @@ public class VendingMachineController implements IVendingMachine {
         return this.vendingMachine.coinItemRemaining(coin);
     }
 
-//    @Override
-//    public void buyProduct(Product product, List<Coin> coins) throws Exception {
-//        Order newOrder = new Order(product, coins);
-//
-//        if (validOrder(newOrder)) {
-//            this.vendingMachine.getProductInventory().removeSupply(product, 1);
-//            coins.forEach(coin -> this.vendingMachine.getCoinInventory().addSupply(coin, 1));
-//        }
-//
-//    }
+    public void buyProduct(Product product) throws NoEnoughMoneyException, NoEnoughProductsException {
+        Order newOrder = new Order(product, this.vendingMachine.getCurrentMoney());
 
-//    private boolean validOrder(Order order) throws Exception {
-//        double money = order.getCoins().stream().mapToDouble(coin -> coin.value).sum();
-//
-//        if (money < order.getProduct().price)
-//            throw new Exception("No enough money");
-//
-//        return true;
-//    }
+        validateOrder(newOrder);
+        removeProduct(product);
+        transferCurrentMoneyToInventory();
+    }
+
+    private void removeProduct(Product product) {
+        this.vendingMachine.removeProduct(product);
+    }
+
+    private void transferCurrentMoneyToInventory() {
+        this.vendingMachine.transferCurrentMoneyToInventory();
+    }
+
+    private boolean validateOrder(Order order) throws NoEnoughMoneyException, NoEnoughProductsException {
+        double money = order.getCoins().stream().mapToDouble(coin -> coin.value).sum();
+
+        if (money < order.getProduct().price)
+            throw new NoEnoughMoneyException("No enough money. Introduce more");
+
+        if (productRemaining(order.getProduct()) < 1) {
+            throw new NoEnoughProductsException("No product remaining");
+        }
+
+        return true;
+    }
 
     @Override
     public void refillProducts(List<Product> newProducts) {
@@ -57,5 +70,19 @@ public class VendingMachineController implements IVendingMachine {
 
     public void insertCoin(Coin coin) {
         this.vendingMachine.insertCoin(coin);
+    }
+
+    public void clearInventory() {
+        this.vendingMachine.clearProducts();
+    }
+
+    public void clearCurrentMoney() {
+        this.vendingMachine.resetCurrentMoney();
+    }
+
+    public List<Coin> cancelOrder() {
+        List<Coin> coinsToReturn = new ArrayList<>(this.vendingMachine.getCurrentMoney());
+        this.vendingMachine.resetCurrentMoney();
+        return coinsToReturn;
     }
 }

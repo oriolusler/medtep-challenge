@@ -33,8 +33,11 @@ public class Inventory<E> {
         newProducts.forEach(product -> addSupply(product, 1));
     }
 
-//    public void removeSupply(E item, int quantity) {
-//        this.items.computeIfPresent(item, (e, quantitySaved) -> quantitySaved - quantity);
-//    }
+    public void removeSupply(E item, int quantity) {
+        this.items.computeIfPresent(item, (e, quantitySaved) -> quantitySaved - quantity);
+    }
 
+    public void clearInventory() {
+        this.items.keySet().forEach(item -> this.items.replace(item, 0));
+    }
 }

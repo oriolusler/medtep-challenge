@@ -51,4 +51,21 @@ public class VendingMachine {
     public double getTotalCurrentMoney() {
         return this.currentMoney.stream().mapToDouble(coin -> coin.value).sum();
     }
+
+    public void removeProduct(Product product) {
+        this.productInventory.removeSupply(product, 1);
+    }
+
+    public void transferCurrentMoneyToInventory() {
+        this.coinInventory.addSupplies(this.currentMoney);
+        resetCurrentMoney();
+    }
+
+    public void resetCurrentMoney() {
+        this.currentMoney.clear();
+    }
+
+    public void clearProducts() {
+        this.productInventory.clearInventory();
+    }
 }

@@ -2,12 +2,13 @@ package test;
 
 import static domain.Coin.*;
 import static domain.Product.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import controllers.VendingMachineController;
 import domain.Coin;
 import domain.Product;
-import domain.VendingMachine;
+import exceptions.NoEnoughMoneyException;
+import exceptions.NoEnoughProductsException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class test {
             FIVE_CNT));
 
     @Test
-    public void coinsCorrectlyAdd() {
+    public void addCoins() {
 
         vendingMachineController.refillCoins(initialCoins);
 
@@ -45,7 +46,7 @@ public class test {
     }
 
     @Test
-    public void productsCorrectlyAdd() {
+    public void addProducts() {
         vendingMachineController.refillProducts(initialProducts);
 
         assertEquals(vendingMachineController.productRemaining(COKE), 3);
@@ -60,5 +61,56 @@ public class test {
         vendingMachineController.insertCoin(TWENTY_CNT);
 
         assertEquals(vendingMachineController.getCurrentMoney(), 1.70);
+    }
+
+    @Test
+    public void buyProduct() throws Exception {
+        addCoins();
+        addProducts();
+        insertCoins();
+
+        vendingMachineController.buyProduct(COKE);
+
+        assertEquals(vendingMachineController.productRemaining(COKE), 2);
+        assertEquals(vendingMachineController.getCurrentMoney(), 0);
+    }
+
+    @Test
+    public void buyProductWithoutEnoughMoney() {
+        addCoins();
+        addProducts();
+        insertCoins();
+
+        vendingMachineController.clearCurrentMoney();
+
+        Exception exception = assertThrows(NoEnoughMoneyException.class, () -> vendingMachineController.buyProduct(COKE));
+        assertEquals(exception.getMessage(), "No enough money. Introduce more");
+    }
+
+    @Test
+    public void buyProductWithoutEnoughProducts() {
+        addCoins();
+        addProducts();
+        insertCoins();
+
+        vendingMachineController.clearInventory();
+
+        Exception exception = assertThrows(NoEnoughProductsException.class, () -> vendingMachineController.buyProduct(COKE));
+        assertEquals(exception.getMessage(), "No product remaining");
+    }
+
+    @Test
+    public void returnMoney() {
+        addCoins();
+        addProducts();
+        insertCoins();
+
+        List<Coin> refund = vendingMachineController.cancelOrder();
+
+        assertEquals(vendingMachineController.getCurrentMoney(), 0.0);
+
+        assertTrue(refund.contains(EURO));
+        assertTrue(refund.contains(FIFTY_CNT));
+        assertTrue(refund.contains(TWENTY_CNT));
     }
 }
