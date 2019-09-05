@@ -13,6 +13,10 @@ public class VendingMachineController implements IVendingMachine {
         this.vendingMachine = new VendingMachine();
     }
 
+    public double getCurrentMoney() {
+        return this.vendingMachine.getTotalCurrentMoney();
+    }
+
     public int productRemaining(Product product) {
         return this.vendingMachine.productItemRemaining(product);
     }
@@ -49,5 +53,9 @@ public class VendingMachineController implements IVendingMachine {
     @Override
     public void refillCoins(List<Coin> newCoins) {
         this.vendingMachine.addCoins(newCoins);
+    }
+
+    public void insertCoin(Coin coin) {
+        this.vendingMachine.insertCoin(coin);
     }
 }

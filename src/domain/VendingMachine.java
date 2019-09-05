@@ -6,19 +6,18 @@ import java.util.List;
 public class VendingMachine {
     private Inventory<Coin> coinInventory;
     private Inventory<Product> productInventory;
-//    private List<Order> orderHistory;
-    private double currentMoney;
+    //    private List<Order> orderHistory;
+    private List<Coin> currentMoney;
 
     public VendingMachine() {
         this.coinInventory = new Inventory<Coin>();
         this.productInventory = new Inventory<Product>();
-//        this.orderHistory = new ArrayList<Order>();
-        resetCurrentMoney();
+        this.currentMoney = new ArrayList<>();
     }
 
-//    public double getCurrentMoney() {
-//        return this.currentMoney;
-//    }
+    public List<Coin> getCurrentMoney() {
+        return this.currentMoney;
+    }
 
     public int productItemRemaining(Product item) {
         return this.productInventory.getItemQuantity(item);
@@ -36,9 +35,6 @@ public class VendingMachine {
 //        return productInventory;
 //    }
 
-    public void resetCurrentMoney() {
-        this.currentMoney = 0;
-    }
 
     public void addProducts(List<Product> newProducts) {
         this.productInventory.addSupplies(newProducts);
@@ -46,5 +42,13 @@ public class VendingMachine {
 
     public void addCoins(List<Coin> newCoins) {
         this.coinInventory.addSupplies(newCoins);
+    }
+
+    public void insertCoin(Coin coin) {
+        this.currentMoney.add(coin);
+    }
+
+    public double getTotalCurrentMoney() {
+        return this.currentMoney.stream().mapToDouble(coin -> coin.value).sum();
     }
 }

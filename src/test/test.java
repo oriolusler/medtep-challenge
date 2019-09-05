@@ -16,7 +16,7 @@ import java.util.List;
 
 public class test {
 
-    VendingMachineController vendingMachineController = new VendingMachineController();
+    private VendingMachineController vendingMachineController = new VendingMachineController();
 
     private List<Product> initialProducts = new ArrayList<Product>(Arrays.asList(
             COKE, SPRITE, WATER,
@@ -51,5 +51,14 @@ public class test {
         assertEquals(vendingMachineController.productRemaining(COKE), 3);
         assertEquals(vendingMachineController.productRemaining(SPRITE), 2);
         assertEquals(vendingMachineController.productRemaining(WATER), 1);
+    }
+
+    @Test
+    public void insertCoins() {
+        vendingMachineController.insertCoin(EURO);
+        vendingMachineController.insertCoin(FIFTY_CNT);
+        vendingMachineController.insertCoin(TWENTY_CNT);
+
+        assertEquals(vendingMachineController.getCurrentMoney(), 1.70);
     }
 }
