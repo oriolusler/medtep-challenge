@@ -40,4 +40,8 @@ public class Inventory<E> {
     public void clearInventory() {
         this.items.keySet().forEach(item -> this.items.replace(item, 0));
     }
+
+    public Map<E, Integer> getItems() {
+        return this.items;
+    }
 }

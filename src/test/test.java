@@ -69,7 +69,7 @@ public class test {
         addProducts();
         insertCoins();
 
-        Product productBought = vendingMachineController.buyProduct(COKE);
+        Product productBought = vendingMachineController.buyProduct(WATER);
 
         assertEquals(productBought, COKE);
 

@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class VendingMachine {
     private Inventory<Coin> coinInventory;
@@ -25,6 +26,10 @@ public class VendingMachine {
 
     public int coinItemRemaining(Coin item) {
         return this.coinInventory.getItemQuantity(item);
+    }
+
+    public Map<Coin, Integer> getCoins() {
+        return this.coinInventory.getItems();
     }
 
 //    public Inventory<Coin> getCoinInventory() {

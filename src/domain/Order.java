@@ -18,4 +18,12 @@ public class Order {
     public List<Coin> getCoins() {
         return coins;
     }
+
+    public double calculateMoneyToReturn() {
+        return totalMoneyIntroduced() - product.price;
+    }
+
+    private double totalMoneyIntroduced() {
+        return coins.stream().mapToDouble(coin -> coin.value).sum();
+    }
 }
