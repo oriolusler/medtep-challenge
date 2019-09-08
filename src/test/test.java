@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import controllers.VendingMachineController;
 import domain.Coin;
+import domain.Order;
 import domain.Product;
+import exceptions.NoEnoughExchange;
 import exceptions.NoEnoughMoneyException;
 import exceptions.NoEnoughProductsException;
 import org.junit.jupiter.api.Test;
@@ -34,7 +36,6 @@ public class test {
 
     @Test
     public void addCoins() {
-
         vendingMachineController.refillCoins(initialCoins);
 
         assertEquals(vendingMachineController.coinRemaining(FIVE_CNT), 6);
@@ -67,13 +68,48 @@ public class test {
     public void buyProduct() throws Exception {
         addCoins();
         addProducts();
+
+        vendingMachineController.insertCoin(FIFTY_CNT);
+        vendingMachineController.insertCoin(TWENTY_CNT);
+        vendingMachineController.insertCoin(TWENTY_CNT);
+
+        Order newOrder = vendingMachineController.buyProduct(WATER);
+
+        Product productBought = newOrder.getProduct();
+        List<Coin> exchange = newOrder.getExchange();
+
+        assertEquals(productBought, WATER);
+        assertNull(exchange);
+
+        assertEquals(vendingMachineController.productRemaining(COKE), 3);
+        assertEquals(vendingMachineController.productRemaining(SPRITE), 2);
+        assertEquals(vendingMachineController.productRemaining(WATER), 0);
+        assertEquals(vendingMachineController.getCurrentMoney(), 0);
+    }
+
+    @Test
+    public void buyProductHighPrice() throws Exception {
+        addCoins();
+        addProducts();
         insertCoins();
 
-        Product productBought = vendingMachineController.buyProduct(WATER);
+        vendingMachineController.insertCoin(EURO);
+        vendingMachineController.insertCoin(EURO);
+        vendingMachineController.insertCoin(FIFTY_CNT);
+        vendingMachineController.insertCoin(TWENTY_CNT);
+        vendingMachineController.insertCoin(TWENTY_CNT);
+        vendingMachineController.insertCoin(TEN_CNT);
+        vendingMachineController.insertCoin(FIVE_CNT);
 
-        assertEquals(productBought, COKE);
+        Order newOrder = vendingMachineController.buyProduct(WATER);
 
-        assertEquals(vendingMachineController.productRemaining(COKE), 2);
+        Product productBought = newOrder.getProduct();
+
+        assertEquals(productBought, WATER);
+
+        assertEquals(vendingMachineController.productRemaining(COKE), 3);
+        assertEquals(vendingMachineController.productRemaining(SPRITE), 2);
+        assertEquals(vendingMachineController.productRemaining(WATER), 0);
         assertEquals(vendingMachineController.getCurrentMoney(), 0);
     }
 
@@ -95,14 +131,44 @@ public class test {
         addProducts();
         insertCoins();
 
-        vendingMachineController.clearInventory();
+        vendingMachineController.clearProductsInventory();
 
         Exception exception = assertThrows(NoEnoughProductsException.class, () -> vendingMachineController.buyProduct(COKE));
         assertEquals(exception.getMessage(), "No product remaining");
     }
 
     @Test
-    public void returnMoney() {
+    public void getChange() throws NoEnoughExchange, NoEnoughProductsException, NoEnoughMoneyException {
+        addCoins();
+        addProducts();
+
+        vendingMachineController.insertCoin(TWO_EURO);
+
+        Order newOrder = vendingMachineController.buyProduct(COKE);
+
+        List<Coin> exchange = newOrder.getExchange();
+
+        double exchangeExpected = TWO_EURO.value - COKE.price;
+
+        double exchangeReceived = exchange.stream().mapToDouble(coin -> coin.value).sum();
+        assertEquals(exchangeExpected, exchangeReceived);
+    }
+
+    @Test
+    public void buyProductWithoutEnoughChange() {
+        addCoins();
+        addProducts();
+
+        vendingMachineController.insertCoin(TWO_EURO);
+
+        vendingMachineController.clearCoinsInventory();
+
+        Exception exception = assertThrows(NoEnoughExchange.class, () -> vendingMachineController.buyProduct(COKE));
+        assertEquals(exception.getMessage(), "Not Sufficient Change, Please try another product");
+    }
+
+    @Test
+    public void cancelOrder() {
         addCoins();
         addProducts();
         insertCoins();
@@ -115,4 +181,6 @@ public class test {
         assertTrue(refund.contains(FIFTY_CNT));
         assertTrue(refund.contains(TWENTY_CNT));
     }
+
+
 }

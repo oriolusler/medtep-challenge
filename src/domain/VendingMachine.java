@@ -70,7 +70,16 @@ public class VendingMachine {
         this.currentMoney.clear();
     }
 
+
+    public void updateCoinsInventory(Map<Coin, Integer> copy) {
+        this.coinInventory.update(copy);
+    }
+
     public void clearProducts() {
         this.productInventory.clearInventory();
+    }
+
+    public void clearCoins() {
+        this.coinInventory.clearInventory();
     }
 }

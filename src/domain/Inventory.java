@@ -44,4 +44,8 @@ public class Inventory<E> {
     public Map<E, Integer> getItems() {
         return this.items;
     }
+
+    public void update(Map<E, Integer> copy) {
+        this.items = copy;
+    }
 }

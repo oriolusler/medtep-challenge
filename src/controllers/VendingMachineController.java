@@ -4,13 +4,11 @@ import domain.Coin;
 import domain.Order;
 import domain.Product;
 import domain.VendingMachine;
+import exceptions.NoEnoughExchange;
 import exceptions.NoEnoughMoneyException;
 import exceptions.NoEnoughProductsException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static domain.Coin.*;
 
@@ -33,18 +31,17 @@ public class VendingMachineController implements IVendingMachine {
         return this.vendingMachine.coinItemRemaining(coin);
     }
 
-    public Product buyProduct(Product product) throws Exception {
+    public Order buyProduct(Product product) throws NoEnoughExchange, NoEnoughMoneyException, NoEnoughProductsException {
         Order newOrder = new Order(product, new ArrayList(this.vendingMachine.getCurrentMoney()));
 
         validateOrder(newOrder);
+
         removeProduct(product);
         transferCurrentMoneyToInventory();
+        newOrder.setExchange(getChange(newOrder));
 
-        double moneyToReturn = newOrder.calculateMoneyToReturn();
-        double roundOff = Math.round(moneyToReturn * 100.0) / 100.0;
-        List<Coin> coinsToReturn = getChange(roundOff);
 
-        return product;
+        return newOrder;
     }
 
     private void removeProduct(Product product) {
@@ -81,8 +78,12 @@ public class VendingMachineController implements IVendingMachine {
         this.vendingMachine.insertCoin(coin);
     }
 
-    public void clearInventory() {
+    public void clearProductsInventory() {
         this.vendingMachine.clearProducts();
+    }
+
+    public void clearCoinsInventory() {
+        this.vendingMachine.clearCoins();
     }
 
     public void clearCurrentMoney() {
@@ -95,43 +96,63 @@ public class VendingMachineController implements IVendingMachine {
         return coinsToReturn;
     }
 
-    public List getChange(double change) throws Exception {
+    public List<Coin> getChange(Order order) throws NoEnoughExchange {
 
-        Map<Coin, Integer> currentsInventoryCoins = vendingMachine.getCoins();
+        double moneyToReturn = order.calculateMoneyToReturn();
+        double change = Math.round(moneyToReturn * 100.0) / 100.0;
+
+        Map<Coin, Integer> copy = new HashMap<>(vendingMachine.getCoins());
 
         if (change > 0) {
             List<Coin> changes = new ArrayList<>();
+
             double changeRemaining = change;
+
             while (changeRemaining > 0) {
                 changeRemaining = Math.round(changeRemaining * 100.0) / 100.0;
-                if (changeRemaining >= TWO_EURO.value && coinRemain(TWO_EURO)) {
+
+                if (changeRemaining >= TWO_EURO.value && coinRemain(copy, TWO_EURO)) {
                     changes.add(TWO_EURO);
                     changeRemaining = changeRemaining - TWO_EURO.value;
-                } else if (changeRemaining >= EURO.value && coinRemain(EURO)) {
+                    copy.computeIfPresent(TWO_EURO, (coin, integer) -> integer - 1);
+
+                } else if (changeRemaining >= EURO.value && coinRemain(copy, EURO)) {
                     changes.add(EURO);
                     changeRemaining = changeRemaining - EURO.value;
-                } else if (changeRemaining >= FIFTY_CNT.value && coinRemain(FIFTY_CNT)) {
+                    copy.computeIfPresent(EURO, (coin, integer) -> integer - 1);
+
+                } else if (changeRemaining >= FIFTY_CNT.value && coinRemain(copy, FIFTY_CNT)) {
                     changes.add(FIFTY_CNT);
                     changeRemaining = changeRemaining - FIFTY_CNT.value;
-                } else if (changeRemaining >= TWENTY_CNT.value && coinRemain(TWENTY_CNT)) {
+                    copy.computeIfPresent(FIFTY_CNT, (coin, integer) -> integer - 1);
+
+                } else if (changeRemaining >= TWENTY_CNT.value && coinRemain(copy, TWENTY_CNT)) {
                     changes.add(TWENTY_CNT);
                     changeRemaining = changeRemaining - TWENTY_CNT.value;
-                } else if (changeRemaining >= TEN_CNT.value && coinRemain(TEN_CNT)) {
+                    copy.computeIfPresent(TWENTY_CNT, (coin, integer) -> integer - 1);
+
+                } else if (changeRemaining >= TEN_CNT.value && coinRemain(copy, TEN_CNT)) {
                     changes.add(TEN_CNT);
                     changeRemaining = changeRemaining - TEN_CNT.value;
-                } else if (changeRemaining >= FIVE_CNT.value && coinRemain(FIFTY_CNT)) {
+                    copy.computeIfPresent(TEN_CNT, (coin, integer) -> integer - 1);
+
+                } else if (changeRemaining >= FIVE_CNT.value && coinRemain(copy, FIFTY_CNT)) {
                     changes.add(FIVE_CNT);
                     changeRemaining = changeRemaining - FIVE_CNT.value;
+                    copy.computeIfPresent(FIVE_CNT, (coin, integer) -> integer - 1);
                 } else {
-                    throw new Exception("Not Sufficient Change, Please try another product");
+                    throw new NoEnoughExchange("Not Sufficient Change, Please try another product");
                 }
             }
+
+            this.vendingMachine.updateCoinsInventory(copy);
+
             return changes;
         }
         return null;
     }
 
-    private boolean coinRemain(Coin coin) {
-        return this.vendingMachine.coinItemRemaining(coin) > 0;
+    private boolean coinRemain(Map<Coin, Integer> map, Coin coin) {
+        return map.get(coin) > 0;
     }
 }
