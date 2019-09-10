@@ -7,12 +7,11 @@ import java.util.Map;
 public class VendingMachine {
     private Inventory<Coin> coinInventory;
     private Inventory<Product> productInventory;
-    //    private List<Order> orderHistory;
     private List<Coin> currentMoney;
 
     public VendingMachine() {
-        this.coinInventory = new Inventory<Coin>();
-        this.productInventory = new Inventory<Product>();
+        this.coinInventory = new Inventory<>();
+        this.productInventory = new Inventory<>();
         this.currentMoney = new ArrayList<>();
     }
 
@@ -32,15 +31,6 @@ public class VendingMachine {
         return this.coinInventory.getItems();
     }
 
-//    public Inventory<Coin> getCoinInventory() {
-//        return coinInventory;
-//    }
-//
-//    public Inventory<Product> getProductInventory() {
-//        return productInventory;
-//    }
-
-
     public void addProducts(List<Product> newProducts) {
         this.productInventory.addSupplies(newProducts);
     }
@@ -58,7 +48,7 @@ public class VendingMachine {
     }
 
     public void removeProduct(Product product) {
-        this.productInventory.removeSupply(product, 1);
+        this.productInventory.removeSupply(product);
     }
 
     public void transferCurrentMoneyToInventory() {
@@ -69,7 +59,6 @@ public class VendingMachine {
     public void resetCurrentMoney() {
         this.currentMoney.clear();
     }
-
 
     public void updateCoinsInventory(Map<Coin, Integer> copy) {
         this.coinInventory.update(copy);

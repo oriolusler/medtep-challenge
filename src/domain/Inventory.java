@@ -2,26 +2,22 @@ package domain;
 
 import java.util.*;
 
-public class Inventory<E> {
+class Inventory<E> {
     private Map<E, Integer> items;
 
-    public Inventory() {
-        this.items = new HashMap<E, Integer>();
+    Inventory() {
+        this.items = new HashMap<>();
     }
 
-//    public List<E> getInventoryElements() {
-//        return new ArrayList<E>(this.items.keySet());
-//    }
-
-    public int getItemQuantity(E item) {
+    int getItemQuantity(E item) {
         return this.items.get(item);
     }
 
-    public void addSupply(E item, int newQuantity) {
+    private void addSupply(E item) {
         if (itemAlreadyExists(item)) {
-            this.items.computeIfPresent(item, (e, quantitySaved) -> quantitySaved + newQuantity);
+            this.items.computeIfPresent(item, (e, quantitySaved) -> quantitySaved + 1);
         } else {
-            this.items.putIfAbsent(item, newQuantity);
+            this.items.putIfAbsent(item, 1);
         }
     }
 
@@ -29,23 +25,23 @@ public class Inventory<E> {
         return this.items.containsKey(itemToCheck);
     }
 
-    public void addSupplies(List<E> newProducts) {
-        newProducts.forEach(product -> addSupply(product, 1));
+    void addSupplies(List<E> newProducts) {
+        newProducts.forEach(this::addSupply);
     }
 
-    public void removeSupply(E item, int quantity) {
-        this.items.computeIfPresent(item, (e, quantitySaved) -> quantitySaved - quantity);
+    void removeSupply(E item) {
+        this.items.computeIfPresent(item, (e, quantitySaved) -> quantitySaved - 1);
     }
 
-    public void clearInventory() {
+    void clearInventory() {
         this.items.keySet().forEach(item -> this.items.replace(item, 0));
     }
 
-    public Map<E, Integer> getItems() {
+    Map<E, Integer> getItems() {
         return this.items;
     }
 
-    public void update(Map<E, Integer> copy) {
+    void update(Map<E, Integer> copy) {
         this.items = copy;
     }
 }

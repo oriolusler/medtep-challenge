@@ -8,7 +8,6 @@ public enum Coin {
     EURO(1),
     TWO_EURO(2);
 
-
     public final double value;
 
     Coin(double value) {

@@ -38,21 +38,21 @@ public class test {
     public void addCoins() {
         vendingMachineController.refillCoins(initialCoins);
 
-        assertEquals(vendingMachineController.coinRemaining(FIVE_CNT), 6);
-        assertEquals(vendingMachineController.coinRemaining(TEN_CNT), 5);
-        assertEquals(vendingMachineController.coinRemaining(TWENTY_CNT), 4);
-        assertEquals(vendingMachineController.coinRemaining(FIFTY_CNT), 3);
-        assertEquals(vendingMachineController.coinRemaining(EURO), 2);
-        assertEquals(vendingMachineController.coinRemaining(TWO_EURO), 1);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(FIVE_CNT), 6);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(TEN_CNT), 5);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(TWENTY_CNT), 4);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(FIFTY_CNT), 3);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(EURO), 2);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(TWO_EURO), 1);
     }
 
     @Test
     public void addProducts() {
         vendingMachineController.refillProducts(initialProducts);
 
-        assertEquals(vendingMachineController.productRemaining(COKE), 3);
-        assertEquals(vendingMachineController.productRemaining(SPRITE), 2);
-        assertEquals(vendingMachineController.productRemaining(WATER), 1);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(COKE), 3);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(SPRITE), 2);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(WATER), 1);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class test {
         vendingMachineController.insertCoin(FIFTY_CNT);
         vendingMachineController.insertCoin(TWENTY_CNT);
 
-        assertEquals(vendingMachineController.getCurrentMoney(), 1.70);
+        assertEquals(vendingMachineController.howMuchMoneyHasUserIntroduced(), 1.70);
     }
 
     @Test
@@ -81,10 +81,10 @@ public class test {
         assertEquals(productBought, WATER);
         assertNull(exchange);
 
-        assertEquals(vendingMachineController.productRemaining(COKE), 3);
-        assertEquals(vendingMachineController.productRemaining(SPRITE), 2);
-        assertEquals(vendingMachineController.productRemaining(WATER), 0);
-        assertEquals(vendingMachineController.getCurrentMoney(), 0);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(COKE), 3);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(SPRITE), 2);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(WATER), 0);
+        assertEquals(vendingMachineController.howMuchMoneyHasUserIntroduced(), 0);
     }
 
     @Test
@@ -107,10 +107,10 @@ public class test {
 
         assertEquals(productBought, WATER);
 
-        assertEquals(vendingMachineController.productRemaining(COKE), 3);
-        assertEquals(vendingMachineController.productRemaining(SPRITE), 2);
-        assertEquals(vendingMachineController.productRemaining(WATER), 0);
-        assertEquals(vendingMachineController.getCurrentMoney(), 0);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(COKE), 3);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(SPRITE), 2);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(WATER), 0);
+        assertEquals(vendingMachineController.howMuchMoneyHasUserIntroduced(), 0);
     }
 
     @Test
@@ -158,13 +158,12 @@ public class test {
     public void buyProductWithoutEnoughChange() {
         addCoins();
         addProducts();
-
-        vendingMachineController.insertCoin(TWO_EURO);
+        insertCoins();
 
         vendingMachineController.clearCoinsInventory();
 
         Exception exception = assertThrows(NoEnoughExchange.class, () -> vendingMachineController.buyProduct(COKE));
-        assertEquals(exception.getMessage(), "Not Sufficient Change, Please try another product");
+        assertEquals(exception.getMessage(), "Not sufficient change");
     }
 
     @Test
@@ -175,11 +174,33 @@ public class test {
 
         List<Coin> refund = vendingMachineController.cancelOrder();
 
-        assertEquals(vendingMachineController.getCurrentMoney(), 0.0);
+        assertEquals(vendingMachineController.howMuchMoneyHasUserIntroduced(), 0.0);
 
         assertTrue(refund.contains(EURO));
         assertTrue(refund.contains(FIFTY_CNT));
         assertTrue(refund.contains(TWENTY_CNT));
+    }
+
+    @Test
+    public void resetVendingMachine() {
+        addCoins();
+        addProducts();
+        insertCoins();
+
+        vendingMachineController.resetVendingMachine();
+
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(FIVE_CNT), 0);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(TEN_CNT), 0);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(TWENTY_CNT), 0);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(FIFTY_CNT), 0);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(EURO), 0);
+        assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(TWO_EURO), 0);
+
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(COKE), 0);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(SPRITE), 0);
+        assertEquals(vendingMachineController.numberOfSpecificProductRemaining(WATER), 0);
+
+        assertEquals(vendingMachineController.howMuchMoneyHasUserIntroduced(), 0);
     }
 
 
