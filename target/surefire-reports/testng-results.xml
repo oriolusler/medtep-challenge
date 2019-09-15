@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="11" passed="11">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Surefire suite" duration-ms="55" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+    <groups>
+    </groups>
+    <test name="Surefire test" duration-ms="55" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+      <class name="VendingMachineTest">
+        <test-method status="PASS" signature="addCoins()[pri:0, instance:VendingMachineTest@35fb3008]" name="addCoins" duration-ms="8" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- addCoins -->
+        <test-method status="PASS" signature="addProducts()[pri:0, instance:VendingMachineTest@35fb3008]" name="addProducts" duration-ms="0" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- addProducts -->
+        <test-method status="PASS" signature="buyProduct()[pri:0, instance:VendingMachineTest@35fb3008]" name="buyProduct" duration-ms="7" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- buyProduct -->
+        <test-method status="PASS" signature="buyProductHighPrice()[pri:0, instance:VendingMachineTest@35fb3008]" name="buyProductHighPrice" duration-ms="2" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- buyProductHighPrice -->
+        <test-method status="PASS" signature="buyProductWithoutEnoughChange()[pri:0, instance:VendingMachineTest@35fb3008]" name="buyProductWithoutEnoughChange" duration-ms="1" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- buyProductWithoutEnoughChange -->
+        <test-method status="PASS" signature="buyProductWithoutEnoughMoney()[pri:0, instance:VendingMachineTest@35fb3008]" name="buyProductWithoutEnoughMoney" duration-ms="1" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- buyProductWithoutEnoughMoney -->
+        <test-method status="PASS" signature="buyProductWithoutEnoughProducts()[pri:0, instance:VendingMachineTest@35fb3008]" name="buyProductWithoutEnoughProducts" duration-ms="1" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- buyProductWithoutEnoughProducts -->
+        <test-method status="PASS" signature="cancelOrder()[pri:0, instance:VendingMachineTest@35fb3008]" name="cancelOrder" duration-ms="0" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- cancelOrder -->
+        <test-method status="PASS" signature="getChange()[pri:0, instance:VendingMachineTest@35fb3008]" name="getChange" duration-ms="0" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- getChange -->
+        <test-method status="PASS" signature="resetVendingMachine()[pri:0, instance:VendingMachineTest@35fb3008]" name="resetVendingMachine" duration-ms="0" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- resetVendingMachine -->
+        <test-method status="PASS" signature="insertCoins()[pri:0, instance:VendingMachineTest@35fb3008]" name="insertCoins" duration-ms="0" started-at="2019-09-15T14:22:49 CEST" finished-at="2019-09-15T14:22:49 CEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- insertCoins -->
+      </class> <!-- VendingMachineTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

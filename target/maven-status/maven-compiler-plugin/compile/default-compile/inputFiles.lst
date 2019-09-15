@@ -1,0 +1,11 @@
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/domain/Product.java
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/domain/Coin.java
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/exceptions/NoEnoughProductsException.java
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/exceptions/NoEnoughMoneyException.java
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/domain/Inventory.java
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/exceptions/NoEnoughExchange.java
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/domain/VendingMachine.java
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/controllers/IVendingMachine.java
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/controllers/VendingMachineController.java
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/Main.java
+/home/oriolsoler/work/challenges/medtep-maven/src/main/java/domain/Order.java

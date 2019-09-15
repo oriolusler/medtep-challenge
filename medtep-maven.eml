@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_1_8" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/target/test-classes"/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<testFolder url="file://$MODULE_DIR$/src/test/java"/>
+		<excludeFolder url="file://$MODULE_DIR$/target"/>
+	</contentEntry>
+	<levels>
+		<level name="Maven: org.testng:testng:7.0.0" value="project"/>
+		<level name="Maven: com.beust:jcommander:1.72" value="project"/>
+		<level name="Maven: org.junit.jupiter:junit-jupiter-api:5.4.2" value="project"/>
+		<level name="Maven: org.apiguardian:apiguardian-api:1.0.0" value="project"/>
+		<level name="Maven: org.opentest4j:opentest4j:1.1.1" value="project"/>
+		<level name="Maven: org.junit.platform:junit-platform-commons:1.4.2" value="project"/>
+	</levels>
+</component>

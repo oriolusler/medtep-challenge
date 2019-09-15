@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Maven: org.opentest4j:opentest4j:1.1.1">
+    <archive path="/home/oriolsoler/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar" />
+  </library>
+  <library name="Maven: org.apiguardian:apiguardian-api:1.0.0">
+    <archive path="/home/oriolsoler/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar" />
+  </library>
+  <library name="Maven: org.testng:testng:7.0.0">
+    <archive path="/home/oriolsoler/.m2/repository/org/testng/testng/7.0.0/testng-7.0.0.jar" />
+  </library>
+  <library name="Maven: com.beust:jcommander:1.72">
+    <archive path="/home/oriolsoler/.m2/repository/com/beust/jcommander/1.72/jcommander-1.72.jar" />
+  </library>
+  <library name="Maven: org.junit.jupiter:junit-jupiter-api:5.4.2">
+    <archive path="/home/oriolsoler/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.4.2/junit-jupiter-api-5.4.2.jar" />
+  </library>
+  <library name="Maven: org.junit.platform:junit-platform-commons:1.4.2">
+    <archive path="/home/oriolsoler/.m2/repository/org/junit/platform/junit-platform-commons/1.4.2/junit-platform-commons-1.4.2.jar" />
+  </library>
+</eclipse-userlibraries>
+
