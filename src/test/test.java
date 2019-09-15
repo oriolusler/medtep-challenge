@@ -35,7 +35,7 @@ public class test {
             FIVE_CNT));
 
     @Test
-    public void addCoins() {
+    void addCoins() {
         vendingMachineController.refillCoins(initialCoins);
 
         assertEquals(vendingMachineController.numberOfSpecificCoinRemaining(FIVE_CNT), 6);
@@ -47,7 +47,7 @@ public class test {
     }
 
     @Test
-    public void addProducts() {
+    void addProducts() {
         vendingMachineController.refillProducts(initialProducts);
 
         assertEquals(vendingMachineController.numberOfSpecificProductRemaining(COKE), 3);
@@ -56,7 +56,7 @@ public class test {
     }
 
     @Test
-    public void insertCoins() {
+    void insertCoins() {
         vendingMachineController.insertCoin(EURO);
         vendingMachineController.insertCoin(FIFTY_CNT);
         vendingMachineController.insertCoin(TWENTY_CNT);
@@ -65,7 +65,7 @@ public class test {
     }
 
     @Test
-    public void buyProduct() throws Exception {
+    void buyProduct() throws Exception {
         addCoins();
         addProducts();
 
@@ -88,7 +88,7 @@ public class test {
     }
 
     @Test
-    public void buyProductHighPrice() throws Exception {
+    void buyProductHighPrice() throws Exception {
         addCoins();
         addProducts();
         insertCoins();
@@ -114,7 +114,7 @@ public class test {
     }
 
     @Test
-    public void buyProductWithoutEnoughMoney() {
+    void buyProductWithoutEnoughMoney() {
         addCoins();
         addProducts();
         insertCoins();
@@ -126,7 +126,7 @@ public class test {
     }
 
     @Test
-    public void buyProductWithoutEnoughProducts() {
+    void buyProductWithoutEnoughProducts() {
         addCoins();
         addProducts();
         insertCoins();
@@ -138,7 +138,7 @@ public class test {
     }
 
     @Test
-    public void getChange() throws NoEnoughExchange, NoEnoughProductsException, NoEnoughMoneyException {
+    void getChange() throws NoEnoughExchange, NoEnoughProductsException, NoEnoughMoneyException {
         addCoins();
         addProducts();
 
@@ -155,7 +155,7 @@ public class test {
     }
 
     @Test
-    public void buyProductWithoutEnoughChange() {
+    void buyProductWithoutEnoughChange() {
         addCoins();
         addProducts();
         insertCoins();
@@ -167,7 +167,7 @@ public class test {
     }
 
     @Test
-    public void cancelOrder() {
+    void cancelOrder() {
         addCoins();
         addProducts();
         insertCoins();
@@ -182,7 +182,7 @@ public class test {
     }
 
     @Test
-    public void resetVendingMachine() {
+    void resetVendingMachine() {
         addCoins();
         addProducts();
         insertCoins();
